@@ -2,35 +2,6 @@ const { MongoClient } = require('mongodb');
 const config = require('./config');
 
 const { dbUrl } = config;
-let db;
-
-async function connect() {
-  try {
-    const client = new MongoClient(dbUrl);
-    await client.connect();
-    // const db = client.db('auth_post_login');
-    db = client.db('auth_post_login');
-    console.log('Successful connection to the database');
-    // return db;
-  } catch (error) {
-    console.error('Error connecting to the database:', error);
-  }
-}
-
-connect();
-
-// Función para obtener la instancia de la base de datos
-function getDb() {
-  if (!db) {
-    throw new Error('La conexión a la base de datos no está establecida.');
-  }
-  return db;
-}
-
-module.exports = { connect, getDb };
-
-/* const { MongoClient } = require('mongodb');
-const { dbUrl } = require('./config');
 
 async function connect() {
   try {
@@ -60,6 +31,6 @@ async function connect() {
   }
 }
 
-// connect();
+connect();
 
-module.exports = connect; */
+module.exports = connect;

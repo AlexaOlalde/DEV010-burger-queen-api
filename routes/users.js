@@ -14,6 +14,7 @@ const {
 
 // Esta función inicializa la admin user
 const initAdminUser = async (app, next) => {
+  console.log("ok");
   // Obtiene mail y password de la admin user desde la configuración
   const { adminEmail, adminPassword } = app.get('config');
   // Si faltan el mail o password, continúa sin inicializar la admin user
@@ -26,66 +27,7 @@ const initAdminUser = async (app, next) => {
     roles: { admin: true },
   };
 
-  /* try {
-    const existingAdmin = await getUsers(adminUser);
-    if (!existingAdmin) {
-      // Creamos un objeto adminUser con el mail, la password cifrada y un rol de administradora
-      await users.create(adminUser);
-      console.log('Admin user succesfully created');
-    }
-  } catch (error) {
-    console.log('Error initializing the admin user', error);
-  }
-  // Continúa con la ejecución
-  next();
-}; */
-  // verificamos si la admin user existe
-  try {
-    const existingAdmin = await getUsers(adminUser);
-    // si existe, console.log que nos advierte de ello
-    if (existingAdmin) {
-      console.log('Admin user already exists in the database');
-      // Si no existe la creamos
-    } else {
-      await users.create(adminUser);
-      console.log('Admin user succesfully created');
-    }
-  } catch (error) {
-    console.log('Error initializing the admin user or Admin user already created in the database', error);
-  }
-  // Continúa con la ejecución
-  next();
-};
-
-/* const express = require('express');
-
-const app = express();
-
-// Define a route that handles POST requests to create a new user
-app.post('/users', (req, res) => {
-  // Extract the data from the request body
-  const { name, email, password } = req.body;
-
-  // Do some validation on the data
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  // Create a new user object with the provided data
-  const newUser = { id: 1, name, email, password };
-
-  // Save the new user to the database
-  // (Note: This is just an example, not a real database!)
-  db.save(newUser);
-
-  // Send a response with the new user object
-  res.status(201).json(newUser);
-});
-
-// Start the server
-app.listen(3000, () => console.log('Server started on port 3000')); */
-
-/*
+  /*
  * Diagrama de flujo de una aplicación y petición en node - express :
  *
  * request  -> middleware1 -> middleware2 -> route
@@ -227,3 +169,51 @@ module.exports = (app, next) => {
   initAdminUser(app, next);
 };
 console.error(error);
+
+/* // verificamos si la admin user existe
+  try {
+    const existingAdmin = await users.getUsers(adminUser);
+    // si no existe, se crea con insertUser
+    if (!existingAdmin) {
+      // insertUser para insertar el usuario
+      await users.insertUser(adminUser);
+      console.log('Admin user successfully created');
+    }
+  } catch (error) {
+    console.log('Error initializing the admin user', error);
+  }
+
+  next();
+}; */
+
+/* try {
+    const existingAdmin = await getUsers(adminUser);
+    if (!existingAdmin) {
+      // Creamos un objeto adminUser con el mail, la password cifrada y un rol de administradora
+      await users.create(adminUser);
+      console.log('Admin user succesfully created');
+    }
+  } catch (error) {
+    console.log('Error initializing the admin user', error);
+  }
+  // Continúa con la ejecución
+  next();
+}; */
+
+  // verificamos si la admin user existe
+  try {
+    const existingAdmin = await getUsers(adminUser);
+    // si existe, console.log que nos advierte de ello
+    if (existingAdmin) {
+      console.log('Admin user already exists in the database');
+      // Si no existe la creamos
+    } else {
+      await users.create(adminUser);
+      console.log('Admin user succesfully created');
+    }
+  } catch (error) {
+    console.log('Error initializing the admin user or Admin user already created in the database', error);
+  }
+  // Continúa con la ejecución
+  next();
+};
